@@ -2,6 +2,7 @@ package com.dikann.webservice.service;
 
 import com.dikann.webservice.dto.CategoryDto;
 import com.dikann.webservice.entity.Category;
+import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.CategoryRepository;
 import com.dikann.webservice.utils.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.dikann.webservice.utils.ApplicationConst.errorObjectNoFoundMessage;
 
 @Service
 public class CategoryService {
@@ -35,8 +35,11 @@ public class CategoryService {
     }
 
     public Category getCategory(Long id) {
-        //TODO add null exception handler
-        return categoryRepository.findById(id).get();
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        if (categoryOptional.isEmpty())
+            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+
+        return categoryOptional.get();
     }
 
     public List<Category> getAllCategories(Integer pageNo, Integer pageSize, String sortBy) {
@@ -50,14 +53,20 @@ public class CategoryService {
     }
 
     public Category updateCategory(Long id, CategoryDto categoryDto) {
-        //TODO add null exception handler
-        Category category = categoryRepository.findById(id).get();
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        if (categoryOptional.isEmpty())
+            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+
+        Category category = categoryOptional.get();
         customerMapper.merge(categoryDto, category);
         return categoryRepository.save(category);
     }
 
     public Map<Object, Object> deleteCategory(Long id) {
-        //TODO add null exception handler
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        if (categoryOptional.isEmpty())
+            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+
         categoryRepository.deleteById(id);
         Map<Object, Object> model = new HashMap<>();
         model.put("id", id);
