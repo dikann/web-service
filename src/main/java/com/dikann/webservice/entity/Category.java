@@ -15,6 +15,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String name;
+    @Column(name = "description")
     private String desc;
     @Column(name = "image_url")
     private String imageUrl;

@@ -41,9 +41,9 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryDto> getAllCategories(@RequestParam(defaultValue = ApplicationConst.pageNo) Integer pageNo,
-                                              @RequestParam(defaultValue = ApplicationConst.pageSize) Integer pageSize,
-                                              @RequestParam(defaultValue = ApplicationConst.sortBy) String sortBy) {
+    public List<CategoryDto> getAllCategories(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
+                                              @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
+                                              @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") String sortBy) {
 
         return categoryService.getAllCategories(pageNo, pageSize, sortBy).stream().map(category -> mapper.map(category, CategoryDto.class))
                 .collect(Collectors.toList());
