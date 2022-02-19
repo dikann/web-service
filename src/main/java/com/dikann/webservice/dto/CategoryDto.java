@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 public class CategoryDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private long id;
+    private Long id;
     private @NotBlank String name;
     @JsonProperty(value = "description")
     private String desc;
