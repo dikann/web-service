@@ -59,6 +59,7 @@ public class CategoryService {
 
         Category category = categoryOptional.get();
         customerMapper.merge(categoryDto, category);
+        category.setModifiedDate(LocalDateTime.now());
         return categoryRepository.save(category);
     }
 
