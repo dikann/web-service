@@ -3,6 +3,7 @@ package com.dikann.webservice.controller;
 import com.dikann.webservice.dto.DiscountDto;
 import com.dikann.webservice.entity.Discount;
 import com.dikann.webservice.enums.SortByEnum;
+import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.service.DiscountService;
 import com.dikann.webservice.utils.ApplicationConst;
 import org.modelmapper.ModelMapper;
@@ -43,9 +44,10 @@ public class DiscountController {
     @GetMapping
     public List<DiscountDto> getAllCategories(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
                                               @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
-                                              @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByEnum sortBy) {
+                                              @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByEnum sortBy,
+                                              @RequestParam(defaultValue = ApplicationConst.sortDir, name = "sort_dir") SortDirEnum sortDir) {
 
-        return discountService.getAllCategories(pageNo, pageSize, sortBy).stream().map(discount -> mapper.map(discount, DiscountDto.class))
+        return discountService.getAllCategories(pageNo, pageSize, sortBy, sortDir).stream().map(discount -> mapper.map(discount, DiscountDto.class))
                 .collect(Collectors.toList());
     }
 

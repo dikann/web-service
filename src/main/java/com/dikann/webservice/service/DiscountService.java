@@ -3,6 +3,7 @@ package com.dikann.webservice.service;
 import com.dikann.webservice.dto.DiscountDto;
 import com.dikann.webservice.entity.Discount;
 import com.dikann.webservice.enums.SortByEnum;
+import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.DiscountRepository;
 import com.dikann.webservice.utils.CustomerMapper;
@@ -43,8 +44,10 @@ public class DiscountService {
         return discountOptional.get();
     }
 
-    public List<Discount> getAllCategories(Integer pageNo, Integer pageSize, SortByEnum sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy.toString()));
+    public List<Discount> getAllCategories(Integer pageNo, Integer pageSize, SortByEnum sortBy, SortDirEnum sortDir) {
+        Pageable paging = PageRequest.of(pageNo, pageSize,
+                sortDir == SortDirEnum.ASC ? Sort.by(sortBy.toString()).ascending()
+                        : Sort.by(sortBy.toString()).descending());
         Page<Discount> discountPage = discountRepository.findAll(paging);
 
         if (discountPage.hasContent())
