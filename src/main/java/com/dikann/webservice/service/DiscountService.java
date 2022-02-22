@@ -2,7 +2,7 @@ package com.dikann.webservice.service;
 
 import com.dikann.webservice.dto.DiscountDto;
 import com.dikann.webservice.entity.Discount;
-import com.dikann.webservice.entity.Discount;
+import com.dikann.webservice.enums.SortByEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.DiscountRepository;
 import com.dikann.webservice.utils.CustomerMapper;
@@ -43,8 +43,8 @@ public class DiscountService {
         return discountOptional.get();
     }
 
-    public List<Discount> getAllCategories(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+    public List<Discount> getAllCategories(Integer pageNo, Integer pageSize, SortByEnum sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy.toString()));
         Page<Discount> discountPage = discountRepository.findAll(paging);
 
         if (discountPage.hasContent())
