@@ -2,6 +2,8 @@ package com.dikann.webservice.controller;
 
 import com.dikann.webservice.dto.CategoryDto;
 import com.dikann.webservice.entity.Category;
+import com.dikann.webservice.enums.SortByEnum;
+import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.service.CategoryService;
 import com.dikann.webservice.utils.ApplicationConst;
 import org.modelmapper.ModelMapper;
@@ -43,9 +45,10 @@ public class CategoryController {
     @GetMapping
     public List<CategoryDto> getAllCategories(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
                                               @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
-                                              @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") String sortBy) {
+                                              @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByEnum sortBy,
+                                              @RequestParam(defaultValue = ApplicationConst.sortDir, name = "sort_dir") SortDirEnum sortDir) {
 
-        return categoryService.getAllCategories(pageNo, pageSize, sortBy).stream().map(category -> mapper.map(category, CategoryDto.class))
+        return categoryService.getAllCategories(pageNo, pageSize, sortBy, sortDir).stream().map(category -> mapper.map(category, CategoryDto.class))
                 .collect(Collectors.toList());
     }
 

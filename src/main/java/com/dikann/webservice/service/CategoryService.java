@@ -2,6 +2,8 @@ package com.dikann.webservice.service;
 
 import com.dikann.webservice.dto.CategoryDto;
 import com.dikann.webservice.entity.Category;
+import com.dikann.webservice.enums.SortByEnum;
+import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.CategoryRepository;
 import com.dikann.webservice.utils.CustomerMapper;
@@ -42,8 +44,10 @@ public class CategoryService {
         return categoryOptional.get();
     }
 
-    public List<Category> getAllCategories(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+    public List<Category> getAllCategories(Integer pageNo, Integer pageSize, SortByEnum sortBy, SortDirEnum sortDir) {
+        Pageable paging = PageRequest.of(pageNo, pageSize,
+                sortDir == SortDirEnum.ASC ? Sort.by(sortBy.toString()).ascending()
+                        : Sort.by(sortBy.toString()).descending());
         Page<Category> categoryPage = categoryRepository.findAll(paging);
 
         if (categoryPage.hasContent())
