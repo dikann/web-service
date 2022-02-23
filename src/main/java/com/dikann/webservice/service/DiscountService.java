@@ -6,6 +6,7 @@ import com.dikann.webservice.enums.SortByEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.DiscountRepository;
+import com.dikann.webservice.repository.ProductRepository;
 import com.dikann.webservice.utils.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,11 +25,13 @@ public class DiscountService {
 
     private final DiscountRepository discountRepository;
     private final CustomerMapper customerMapper;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public DiscountService(DiscountRepository discountRepository, CustomerMapper customerMapper) {
+    public DiscountService(DiscountRepository discountRepository, CustomerMapper customerMapper, ProductRepository productRepository) {
         this.discountRepository = discountRepository;
         this.customerMapper = customerMapper;
+        this.productRepository = productRepository;
     }
 
     public Discount addDiscount(Discount discount) {
@@ -71,6 +74,8 @@ public class DiscountService {
         Optional<Discount> discountOptional = discountRepository.findById(id);
         if (discountOptional.isEmpty())
             throw new ObjectNotFoundException(errorObjectNotFoundMessage);
+
+        productRepository.deleteByDiscountId(id);
 
         discountRepository.deleteById(id);
         Map<Object, Object> model = new HashMap<>();
