@@ -1,9 +1,12 @@
 package com.dikann.webservice.views;
 
 public interface Views {
-    interface Post {
+    interface Default {
     }
 
-    interface Get {
+    interface Summery extends Default {
+    }
+
+    interface Detailed extends Default {
     }
 }

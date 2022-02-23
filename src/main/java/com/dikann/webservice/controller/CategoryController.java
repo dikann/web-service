@@ -6,6 +6,8 @@ import com.dikann.webservice.enums.SortByEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.service.CategoryService;
 import com.dikann.webservice.utils.ApplicationConst;
+import com.dikann.webservice.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(ApplicationConst.baseUrl + "category")
+@JsonView(value = {Views.Detailed.class})
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -28,6 +31,7 @@ public class CategoryController {
         this.categoryService = categoryService;
         this.mapper = mapper;
     }
+
 
     @PostMapping
     public ResponseEntity<CategoryDto> addCategory(@RequestBody @Valid CategoryDto categoryDto) {
