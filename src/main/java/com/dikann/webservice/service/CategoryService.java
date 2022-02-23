@@ -6,6 +6,7 @@ import com.dikann.webservice.enums.SortByEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.CategoryRepository;
+import com.dikann.webservice.repository.ProductRepository;
 import com.dikann.webservice.utils.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -24,11 +26,13 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CustomerMapper customerMapper;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository, CustomerMapper customerMapper) {
+    public CategoryService(CategoryRepository categoryRepository, CustomerMapper customerMapper, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
         this.customerMapper = customerMapper;
+        this.productRepository = productRepository;
     }
 
     public Category addCategory(Category category) {
@@ -67,10 +71,13 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    @Transactional
     public Map<Object, Object> deleteCategory(Long id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isEmpty())
             throw new ObjectNotFoundException(errorObjectNotFoundMessage);
+
+        productRepository.deleteByCategoryId(id);
 
         categoryRepository.deleteById(id);
         Map<Object, Object> model = new HashMap<>();
