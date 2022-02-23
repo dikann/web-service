@@ -24,7 +24,7 @@ public class DiscountDto {
     private @NotNull Boolean active;
     @JsonProperty(value = "created_date", access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdDate;
-    @JsonProperty(value = "modified_date", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "modified_date", access = JsonProperty.Access.READ_ONLY )
     private LocalDateTime modifiedDate;
 
 }
