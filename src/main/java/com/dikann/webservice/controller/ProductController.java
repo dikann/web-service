@@ -7,6 +7,8 @@ import com.dikann.webservice.enums.SortByProductEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.service.ProductService;
 import com.dikann.webservice.utils.ApplicationConst;
+import com.dikann.webservice.views.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(ApplicationConst.baseUrl + "product")
+@JsonView(value = {Views.Detailed.class})
 public class ProductController {
 
     private final ProductService productService;
@@ -45,6 +48,7 @@ public class ProductController {
         return ResponseEntity.ok(productDtoResponse);
     }
 
+    @JsonView(value = {Views.Summery.class})
     @GetMapping
     public List<ProductDto> getAllProducts(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
                                            @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
+@JsonView(value = {Views.Default.class})
 public class ProductDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -26,8 +27,10 @@ public class ProductDto {
     private @NotNull Double price;
     @Min(0)
     private Long quantity;
+    @JsonView(value = {Views.Detailed.class})
     @JsonProperty(value = "created_date", access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdDate;
+    @JsonView(value = {Views.Detailed.class})
     @JsonProperty(value = "modified_date", access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime modifiedDate;
 
