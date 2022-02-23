@@ -33,7 +33,7 @@ public class ProductDto {
 
     @JsonView(value = {Views.Post.class})
     @JsonProperty(value = "discount_id")
-    private @NotNull Long discountId;
+    private Long discountId;
     @JsonView(value = {Views.Post.class})
     @JsonProperty(value = "category_id")
     private @NotNull Long categoryId;

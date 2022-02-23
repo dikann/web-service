@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.dikann.webservice.utils.ApplicationConst.errorObjectNoFoundMessage;
+import static com.dikann.webservice.utils.ApplicationConst.errorObjectNotFoundMessage;
 
 @Service
 public class DiscountService {
@@ -39,7 +39,7 @@ public class DiscountService {
     public Discount getDiscount(Long id) {
         Optional<Discount> discountOptional = discountRepository.findById(id);
         if (discountOptional.isEmpty())
-            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+            throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
         return discountOptional.get();
     }
@@ -59,7 +59,7 @@ public class DiscountService {
     public Discount updateDiscount(Long id, DiscountDto discountDto) {
         Optional<Discount> discountOptional = discountRepository.findById(id);
         if (discountOptional.isEmpty())
-            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+            throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
         Discount discount = discountOptional.get();
         customerMapper.merge(discountDto, discount);
@@ -70,7 +70,7 @@ public class DiscountService {
     public Map<Object, Object> deleteDiscount(Long id) {
         Optional<Discount> discountOptional = discountRepository.findById(id);
         if (discountOptional.isEmpty())
-            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+            throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
         discountRepository.deleteById(id);
         Map<Object, Object> model = new HashMap<>();

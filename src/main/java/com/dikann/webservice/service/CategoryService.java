@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.dikann.webservice.utils.ApplicationConst.errorObjectNoFoundMessage;
+import static com.dikann.webservice.utils.ApplicationConst.errorObjectNotFoundMessage;
 
 @Service
 public class CategoryService {
@@ -39,7 +39,7 @@ public class CategoryService {
     public Category getCategory(Long id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isEmpty())
-            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+            throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
         return categoryOptional.get();
     }
@@ -59,7 +59,7 @@ public class CategoryService {
     public Category updateCategory(Long id, CategoryDto categoryDto) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isEmpty())
-            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+            throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
         Category category = categoryOptional.get();
         customerMapper.merge(categoryDto, category);
@@ -70,7 +70,7 @@ public class CategoryService {
     public Map<Object, Object> deleteCategory(Long id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isEmpty())
-            throw new ObjectNotFoundException(errorObjectNoFoundMessage);
+            throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
         categoryRepository.deleteById(id);
         Map<Object, Object> model = new HashMap<>();

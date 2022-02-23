@@ -59,3 +59,4 @@ build/
 
 # config file (temporary)
 application.yml
+DebugCommandLiner.java
