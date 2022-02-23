@@ -31,18 +31,14 @@ public class ProductDto {
     @JsonProperty(value = "modified_date", access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime modifiedDate;
 
-    @JsonView(value = {Views.Post.class})
-    @JsonProperty(value = "discount_id")
+    @JsonProperty(value = "discount_id", access = JsonProperty.Access.WRITE_ONLY)
     private Long discountId;
-    @JsonView(value = {Views.Post.class})
-    @JsonProperty(value = "category_id")
+    @JsonProperty(value = "category_id", access = JsonProperty.Access.WRITE_ONLY)
     private @NotNull Long categoryId;
 
-    @JsonView(value = {Views.Get.class})
-    @JsonProperty(value = "discount")
+    @JsonProperty(value = "discount", access = JsonProperty.Access.READ_ONLY)
     private DiscountDto discountDto;
-    @JsonView(value = {Views.Get.class})
-    @JsonProperty(value = "category")
+    @JsonProperty(value = "category", access = JsonProperty.Access.READ_ONLY)
     private CategoryDto categoryDto;
 
 }

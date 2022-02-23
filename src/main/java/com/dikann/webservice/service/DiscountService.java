@@ -44,7 +44,7 @@ public class DiscountService {
         return discountOptional.get();
     }
 
-    public List<Discount> getAllCategories(Integer pageNo, Integer pageSize, SortByEnum sortBy, SortDirEnum sortDir) {
+    public List<Discount> getAllDiscounts(Integer pageNo, Integer pageSize, SortByEnum sortBy, SortDirEnum sortDir) {
         Pageable paging = PageRequest.of(pageNo, pageSize,
                 sortDir == SortDirEnum.ASC ? Sort.by(sortBy.toString()).ascending()
                         : Sort.by(sortBy.toString()).descending());

@@ -6,6 +6,7 @@ import com.dikann.webservice.entity.Category;
 import com.dikann.webservice.entity.Discount;
 import com.dikann.webservice.entity.Product;
 import com.dikann.webservice.enums.SortByEnum;
+import com.dikann.webservice.enums.SortByProductEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.CategoryRepository;
@@ -13,6 +14,7 @@ import com.dikann.webservice.repository.DiscountRepository;
 import com.dikann.webservice.repository.ProductRepository;
 import com.dikann.webservice.utils.CustomerMapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,7 @@ public class ProductService {
     private final ModelMapper mapper;
     private final CustomerMapper customerMapper;
 
+    @Autowired
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, DiscountRepository discountRepository, ModelMapper mapper, CustomerMapper customerMapper) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
@@ -70,7 +73,7 @@ public class ProductService {
         return productOptional.get();
     }
 
-    public List<Product> getAllProducts(Integer pageNo, Integer pageSize, SortByEnum sortBy, SortDirEnum sortDir) {
+    public List<Product> getAllProducts(Integer pageNo, Integer pageSize, SortByProductEnum sortBy, SortDirEnum sortDir) {
         Pageable paging = PageRequest.of(pageNo, pageSize,
                 sortDir == SortDirEnum.ASC ? Sort.by(sortBy.toString()).ascending()
                         : Sort.by(sortBy.toString()).descending());

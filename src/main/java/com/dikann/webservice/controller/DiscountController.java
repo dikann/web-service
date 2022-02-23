@@ -42,12 +42,12 @@ public class DiscountController {
     }
 
     @GetMapping
-    public List<DiscountDto> getAllCategories(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
-                                              @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
-                                              @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByEnum sortBy,
-                                              @RequestParam(defaultValue = ApplicationConst.sortDir, name = "sort_dir") SortDirEnum sortDir) {
+    public List<DiscountDto> getAllDiscounts(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
+                                             @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
+                                             @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByEnum sortBy,
+                                             @RequestParam(defaultValue = ApplicationConst.sortDir, name = "sort_dir") SortDirEnum sortDir) {
 
-        return discountService.getAllCategories(pageNo, pageSize, sortBy, sortDir).stream().map(discount -> mapper.map(discount, DiscountDto.class))
+        return discountService.getAllDiscounts(pageNo, pageSize, sortBy, sortDir).stream().map(discount -> mapper.map(discount, DiscountDto.class))
                 .collect(Collectors.toList());
     }
 
