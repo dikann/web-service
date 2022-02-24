@@ -61,7 +61,8 @@ public class DiscountController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteDiscount(@PathVariable("id") Long id) {
-        return new ResponseEntity<Object>(discountService.deleteDiscount(id), HttpStatus.OK);
+    public ResponseEntity<Object> deleteDiscount(@PathVariable("id") Long id,
+                                                 @RequestParam(defaultValue = "false", name = "delete_products") boolean deleteProducts) {
+        return new ResponseEntity<Object>(discountService.deleteDiscount(id, deleteProducts), HttpStatus.OK);
     }
 }

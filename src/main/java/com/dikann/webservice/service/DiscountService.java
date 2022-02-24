@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -70,12 +71,16 @@ public class DiscountService {
         return discountRepository.save(discount);
     }
 
-    public Map<Object, Object> deleteDiscount(Long id) {
+    @Transactional
+    public Map<Object, Object> deleteDiscount(Long id, boolean deleteProducts) {
         Optional<Discount> discountOptional = discountRepository.findById(id);
         if (discountOptional.isEmpty())
             throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
-        productRepository.deleteByDiscountId(id);
+        if (deleteProducts)
+            productRepository.deleteByDiscountId(id);
+        else
+            productRepository.updateAllProductsDiscountId(id);
 
         discountRepository.deleteById(id);
         Map<Object, Object> model = new HashMap<>();

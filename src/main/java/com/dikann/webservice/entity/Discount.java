@@ -13,7 +13,7 @@ public class Discount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
     public String name;
     @Column(name = "description ")
     public String desc;
