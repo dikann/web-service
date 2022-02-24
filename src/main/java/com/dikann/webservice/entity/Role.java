@@ -1,9 +1,11 @@
 package com.dikann.webservice.entity;
 
 import com.dikann.webservice.enums.RoleName;
+import lombok.Data;
 
 import javax.persistence.*;
 
+@Data
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -13,19 +15,4 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleName name;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public RoleName getName() {
-        return name;
-    }
-
-    public void setName(RoleName name) {
-        this.name = name;
-    }
 }
