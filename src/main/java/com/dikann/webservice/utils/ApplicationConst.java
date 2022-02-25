@@ -10,6 +10,8 @@ public class ApplicationConst {
     public final static String errorObjectNotFoundCode = "OBJECT_NOT_FOUND";
     public final static String errorObjectNotFoundMessage = "The Object was not found. It was either deleted or doesn't exist!";
 
+    public static final String AUTHORITIES_KEY = "roles";
+
     public static String errorObjectWithNameNotFoundMessage(String name) {
         return String.format("The %s was not found. It was either deleted or doesn't exist!", name);
     }
