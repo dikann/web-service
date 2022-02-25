@@ -29,7 +29,7 @@ public class AuthService {
     public Map<Object, Object> signIn(String username, String password) {
         try {
             var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtProvider.generateToken(authentication);
             Map<Object, Object> model = new HashMap<>();
             model.put("username", username);
