@@ -5,7 +5,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -20,9 +19,9 @@ import static java.util.stream.Collectors.joining;
 
 @Component
 public class JwtProvider {
-    @Value("${app.jwtSecret}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
-    @Value("${app.jwtExpirationInMs}")
+    @Value("${jwt.expiration-in-ms}")
     private int jwtExpirationInMs;
 
     private SecretKey secretKey;
