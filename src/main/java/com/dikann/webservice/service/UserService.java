@@ -7,6 +7,7 @@ import com.dikann.webservice.enums.DefaultRoles;
 import com.dikann.webservice.enums.SortByUserEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
+import com.dikann.webservice.exception.ObjectTakenException;
 import com.dikann.webservice.repository.RoleRepository;
 import com.dikann.webservice.repository.UserRepository;
 import com.dikann.webservice.utils.ApplicationConst;
@@ -46,9 +47,9 @@ public class UserService {
 
     public User addUser(SignUpDto signUpDto) {
         if (isEmailTaken(signUpDto.getEmail()))
-            throw new ObjectNotFoundException(ApplicationConst.errorObjectTakenCodeMessage("Email"));
+            throw new ObjectTakenException(ApplicationConst.errorObjectTakenCodeMessage("Email"));
         if (isUsernameTaken(signUpDto.getUsername()))
-            throw new ObjectNotFoundException(ApplicationConst.errorObjectTakenCodeMessage("Username"));
+            throw new ObjectTakenException(ApplicationConst.errorObjectTakenCodeMessage("Username"));
 
         User user = mapper.map(signUpDto, User.class);
         user.setRoles(roleFromString(signUpDto.getRoles()));
@@ -79,9 +80,9 @@ public class UserService {
 
     public User updateUser(Long id, SignUpDto signUpDto) {
         if (isEmailTaken(signUpDto.getEmail()))
-            throw new ObjectNotFoundException(ApplicationConst.errorObjectTakenCodeMessage("Email"));
+            throw new ObjectTakenException(ApplicationConst.errorObjectTakenCodeMessage("Email"));
         if (isUsernameTaken(signUpDto.getUsername()))
-            throw new ObjectNotFoundException(ApplicationConst.errorObjectTakenCodeMessage("Username"));
+            throw new ObjectTakenException(ApplicationConst.errorObjectTakenCodeMessage("Username"));
 
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty())
@@ -126,11 +127,11 @@ public class UserService {
     }
 
     private boolean isUsernameTaken(String username) {
-        return userRepository.findByUsername(username).isEmpty();
+        return userRepository.findByUsername(username).isPresent();
     }
 
     private boolean isEmailTaken(String email) {
-        return userRepository.findByEmail(email).isEmpty();
+        return userRepository.findByEmail(email).isPresent();
     }
 
 }
