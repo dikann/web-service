@@ -67,7 +67,7 @@ public class UserAddressService {
         if (userAddressOptional.isEmpty())
             throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("user address"));
 
-        userAddressRepository.deleteById(id);
+        userAddressRepository.deleteByIdAndUserId(id, user.getId());
         Map<Object, Object> model = new HashMap<>();
         model.put("id", id);
         model.put("success", true);
