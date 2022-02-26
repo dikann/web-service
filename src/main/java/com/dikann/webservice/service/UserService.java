@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,13 +31,15 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final ModelMapper mapper;
     private final CustomerMapper customerMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, ModelMapper mapper, CustomerMapper customerMapper) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ModelMapper mapper, CustomerMapper customerMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.mapper = mapper;
         this.customerMapper = customerMapper;
+        this.passwordEncoder = passwordEncoder;
 
         this.mapper.typeMap(SignUpDto.class, User.class).addMappings(skipper -> skipper.skip(User::setRoles));
     }
@@ -50,6 +53,7 @@ public class UserService {
         User user = mapper.map(signUpDto, User.class);
         user.setRoles(roleFromString(signUpDto.getRoles()));
         user.setCreatedDate(LocalDateTime.now());
+        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         return userRepository.save(user);
     }
 
@@ -88,6 +92,8 @@ public class UserService {
         if (!signUpDto.getRoles().isEmpty())
             user.setRoles(roleFromString(signUpDto.getRoles()));
         user.setModifiedDate(LocalDateTime.now());
+        if (signUpDto.getPassword() != null)
+            user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         return userRepository.save(user);
     }
 
