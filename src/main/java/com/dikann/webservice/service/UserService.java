@@ -75,7 +75,7 @@ public class UserService {
         if (userPage.hasContent())
             return userPage.getContent();
 
-        return new ArrayList<User>();
+        return new ArrayList<>();
     }
 
     public User updateUser(Long id, SignUpDto signUpDto) {
