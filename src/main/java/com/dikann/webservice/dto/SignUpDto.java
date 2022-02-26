@@ -17,6 +17,7 @@ public class SignUpDto {
     private Long id;
     private @Email @NotBlank String email;
     private @NotBlank String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private @NotBlank String password;
     @JsonProperty(value = "first_name")
     private String firstName;
