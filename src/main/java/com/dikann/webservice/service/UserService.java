@@ -5,6 +5,7 @@ import com.dikann.webservice.entity.Role;
 import com.dikann.webservice.entity.User;
 import com.dikann.webservice.enums.DefaultRoles;
 import com.dikann.webservice.enums.SortByProductEnum;
+import com.dikann.webservice.enums.SortByUserEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.RoleRepository;
@@ -56,7 +57,7 @@ public class UserService {
         return user.get();
     }
 
-    public List<User> getAllUsers(Integer pageNo, Integer pageSize, SortByProductEnum sortBy, SortDirEnum sortDir) {
+    public List<User> getAllUsers(Integer pageNo, Integer pageSize, SortByUserEnum sortBy, SortDirEnum sortDir) {
         Pageable paging = PageRequest.of(pageNo, pageSize,
                 sortDir == SortDirEnum.ASC ? Sort.by(sortBy.toString()).ascending()
                         : Sort.by(sortBy.toString()).descending());
