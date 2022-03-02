@@ -1,10 +1,7 @@
 package com.dikann.webservice.utils;
 
 
-import com.dikann.webservice.enums.SortByEnum;
-import com.dikann.webservice.enums.SortByProductEnum;
-import com.dikann.webservice.enums.SortByUserEnum;
-import com.dikann.webservice.enums.SortDirEnum;
+import com.dikann.webservice.enums.*;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -17,5 +14,6 @@ public class GlobalInitBinder {
         binder.registerCustomEditor(SortByEnum.class, new SortByEnumConvertor());
         binder.registerCustomEditor(SortByProductEnum.class, new SortByProductEnumConvertor());
         binder.registerCustomEditor(SortByUserEnum.class, new SortByUserEnumConvertor());
+        binder.registerCustomEditor(SortByCartItemEnum.class, new SortByCartItemConvertor());
     }
 }
