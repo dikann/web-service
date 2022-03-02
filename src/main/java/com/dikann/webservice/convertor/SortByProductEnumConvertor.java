@@ -1,4 +1,4 @@
-package com.dikann.webservice.utils;
+package com.dikann.webservice.convertor;
 
 import com.dikann.webservice.enums.SortByProductEnum;
 
