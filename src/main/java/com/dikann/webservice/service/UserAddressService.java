@@ -8,6 +8,7 @@ import com.dikann.webservice.repository.UserAddressRepository;
 import com.dikann.webservice.repository.UserRepository;
 import com.dikann.webservice.utils.ApplicationConst;
 import com.dikann.webservice.utils.CustomerMapper;
+import com.dikann.webservice.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,22 +23,24 @@ public class UserAddressService {
     private final UserAddressRepository userAddressRepository;
     private final UserRepository userRepository;
     private final CustomerMapper customerMapper;
+    private final UserUtils userUtils;
 
     @Autowired
-    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository, CustomerMapper customerMapper) {
+    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository, CustomerMapper customerMapper, UserUtils userUtils) {
         this.userAddressRepository = userAddressRepository;
         this.userRepository = userRepository;
         this.customerMapper = customerMapper;
+        this.userUtils = userUtils;
     }
 
     public UserAddress addUserAddress(Principal userPrincipal, UserAddress userAddress) {
-        User user = getUser(userPrincipal);
+        User user = userUtils.getUser(userPrincipal);
         userAddress.setUserId(user.getId());
         return userAddressRepository.save(userAddress);
     }
 
     public UserAddress getUserAddress(Principal userPrincipal, Long id) {
-        User user = getUser(userPrincipal);
+        User user = userUtils.getUser(userPrincipal);
         Optional<UserAddress> userAddressOptional = userAddressRepository.findByIdAndUserId(id, user.getId());
         if (userAddressOptional.isEmpty())
             throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("user address"));
@@ -46,12 +49,12 @@ public class UserAddressService {
     }
 
     public List<UserAddress> getAllUserAddresses(Principal userPrincipal) {
-        User user = getUser(userPrincipal);
+        User user = userUtils.getUser(userPrincipal);
         return userAddressRepository.findAllByUserId(user.getId());
     }
 
     public UserAddress updateUserAddress(Principal userPrincipal, Long id, UserAddressDto userAddressDto) {
-        User user = getUser(userPrincipal);
+        User user = userUtils.getUser(userPrincipal);
         Optional<UserAddress> userAddressOptional = userAddressRepository.findByIdAndUserId(id, user.getId());
         if (userAddressOptional.isEmpty())
             throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("user address"));
@@ -62,7 +65,7 @@ public class UserAddressService {
     }
 
     public Map<Object, Object> deleteUserAddress(Principal userPrincipal, Long id) {
-        User user = getUser(userPrincipal);
+        User user = userUtils.getUser(userPrincipal);
         Optional<UserAddress> userAddressOptional = userAddressRepository.findByIdAndUserId(id, user.getId());
         if (userAddressOptional.isEmpty())
             throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("user address"));
@@ -72,13 +75,5 @@ public class UserAddressService {
         model.put("id", id);
         model.put("success", true);
         return model;
-    }
-
-    private User getUser(Principal user) {
-        Optional<User> userOptional = userRepository.findByUsername(user.getName());
-        if (userOptional.isEmpty())
-            throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("user"));
-
-        return userOptional.get();
     }
 }
