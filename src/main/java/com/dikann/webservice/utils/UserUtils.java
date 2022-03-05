@@ -19,7 +19,11 @@ public class UserUtils {
     }
 
     public User getUser(Principal user) {
+        if (user == null)
+            throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("user"));
+
         Optional<User> userOptional = userRepository.findByUsername(user.getName());
+
         if (userOptional.isEmpty())
             throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("user"));
 

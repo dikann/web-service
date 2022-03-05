@@ -14,7 +14,11 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shopping_session_id", nullable = false)
+    @JoinTable(
+            name = "cart_item_shopping_session",
+            joinColumns = @JoinColumn(name = "cart_item_id"),
+            inverseJoinColumns = @JoinColumn(name = "shopping_session_id")
+    )
     private ShoppingSession shoppingSession;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
@@ -24,5 +28,4 @@ public class CartItem {
     private LocalDateTime createdDate;
     @Column(name = "modified_date")
     private LocalDateTime modifiedDate;
-
 }

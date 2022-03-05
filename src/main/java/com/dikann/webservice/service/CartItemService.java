@@ -27,6 +27,7 @@ import static com.dikann.webservice.utils.ApplicationConst.errorObjectNotFoundMe
 public class CartItemService {
 
     private final CartItemRepository cartItemRepository;
+    private final ShoppingSessionRepository shoppingSessionRepository;
     private final ShoppingSessionService shoppingSessionService;
     private final ProductService productService;
     private final ModelMapper mapper;
@@ -34,8 +35,9 @@ public class CartItemService {
     private final UserUtils userUtils;
 
     @Autowired
-    public CartItemService(CartItemRepository cartItemRepository, ShoppingSessionRepository shoppingSessionRepository, ShoppingSessionService shoppingSessionService, ProductService productService, ModelMapper mapper, CustomerMapper customerMapper, UserUtils userUtils) {
+    public CartItemService(CartItemRepository cartItemRepository, ShoppingSessionRepository shoppingSessionRepository, ShoppingSessionRepository shoppingSessionRepository1, ShoppingSessionService shoppingSessionService, ProductService productService, ModelMapper mapper, CustomerMapper customerMapper, UserUtils userUtils) {
         this.cartItemRepository = cartItemRepository;
+        this.shoppingSessionRepository = shoppingSessionRepository1;
         this.shoppingSessionService = shoppingSessionService;
         this.productService = productService;
         this.mapper = mapper;
@@ -63,18 +65,17 @@ public class CartItemService {
         if (cartItemOptional.isEmpty())
             throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
+        System.out.println(cartItemOptional.get().getProduct().getName());
         return cartItemOptional.get();
     }
 
-    public List<CartItem> getAllCartItems(Principal userPrincipal, Integer pageNo, Integer pageSize, SortByCartItemEnum sortBy, SortDirEnum sortDir) {
+    public List<CartItem> getAllCartItems(Principal userPrincipal, boolean valid) {
         User user = userUtils.getUser(userPrincipal);
-        Pageable paging = PageRequest.of(pageNo, pageSize,
-                sortDir == SortDirEnum.ASC ? Sort.by(sortBy.toString()).ascending()
-                        : Sort.by(sortBy.toString()).descending());
-        Page<CartItem> cartItemPage = cartItemRepository.findAllByUserId(user.getId(), paging);
 
-        if (cartItemPage.hasContent())
-            return cartItemPage.getContent();
+        List<CartItem> cartItemList = cartItemRepository.findAllByUserIdAndValid(user.getId(), valid);
+
+        if (!cartItemList.isEmpty())
+            return cartItemList;
 
         return new ArrayList<CartItem>();
     }
@@ -103,7 +104,7 @@ public class CartItemService {
         if (cartItemOptional.isEmpty())
             throw new ObjectNotFoundException(errorObjectNotFoundMessage);
 
-        cartItemRepository.deleteByIdAndUserId(id, user.getId());
+        cartItemRepository.deleteById(id);
         Map<Object, Object> model = new HashMap<>();
         model.put("id", id);
         model.put("success", true);
