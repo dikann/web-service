@@ -11,7 +11,7 @@ public class OrderDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.PENDING;
     @JsonProperty(value = "total_discount", access = JsonProperty.Access.READ_ONLY)
     private Double totalDiscount;
 
