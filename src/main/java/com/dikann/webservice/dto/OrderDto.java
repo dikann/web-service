@@ -1,5 +1,6 @@
 package com.dikann.webservice.dto;
 
+import com.dikann.webservice.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -10,8 +11,8 @@ public class OrderDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
-    private String status;
-    @JsonProperty(value = "total_discount")
+    private OrderStatus status;
+    @JsonProperty(value = "total_discount", access = JsonProperty.Access.READ_ONLY)
     private Double totalDiscount;
 
     @JsonProperty(value = "user_address_id", access = JsonProperty.Access.WRITE_ONLY)
