@@ -11,6 +11,4 @@ import java.util.Optional;
 public interface ShoppingSessionRepository extends JpaRepository<ShoppingSession, Long> {
     @Query(value = "SELECT * FROM shopping_session WHERE valid=TRUE AND user_id= ?1 ORDER BY created_date DESC LIMIT 1", nativeQuery = true)
     Optional<ShoppingSession> getActiveShoppingSession(Long userId);
-
-    Optional<ShoppingSession> findByUserId(Long userId);
 }
