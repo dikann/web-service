@@ -1,10 +1,12 @@
 package com.dikann.webservice.dto;
 
+import com.dikann.webservice.entity.CartItem;
 import com.dikann.webservice.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrderDto {
@@ -24,5 +26,8 @@ public class OrderDto {
     private LocalDateTime createdDate;
     @JsonProperty(value = "modified_date", access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime modifiedDate;
+
+    @JsonProperty(value = "cart_items", access = JsonProperty.Access.READ_ONLY)
+    private List<CartItem> cartItems;
 
 }

@@ -80,6 +80,15 @@ public class CartItemService {
         return new ArrayList<CartItem>();
     }
 
+    public List<CartItem> getAllCartItemsByShoppingSessionId(Long shoppingSessionId) {
+        List<CartItem> cartItemList = cartItemRepository.findAllByShoppingSessionId(shoppingSessionId);
+
+        if (!cartItemList.isEmpty())
+            return cartItemList;
+
+        return new ArrayList<CartItem>();
+    }
+
     public CartItem updateCartItem(Principal userPrincipal, Long id, CartItemDto cartItemDto) {
         User user = userUtils.getUser(userPrincipal);
         Optional<CartItem> cartItemOptional = cartItemRepository.findByIdAndUserId(id, user.getId());
