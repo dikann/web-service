@@ -2,8 +2,6 @@ package com.dikann.webservice.controller;
 
 import com.dikann.webservice.dto.CartItemDto;
 import com.dikann.webservice.entity.CartItem;
-import com.dikann.webservice.enums.SortByCartItemEnum;
-import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.service.CartItemService;
 import com.dikann.webservice.utils.ApplicationConst;
 import com.dikann.webservice.views.Views;
