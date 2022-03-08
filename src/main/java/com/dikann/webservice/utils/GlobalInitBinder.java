@@ -16,5 +16,6 @@ public class GlobalInitBinder {
         binder.registerCustomEditor(SortByProductEnum.class, new SortByProductEnumConvertor());
         binder.registerCustomEditor(SortByUserEnum.class, new SortByUserEnumConvertor());
         binder.registerCustomEditor(SortByCartItemEnum.class, new SortByCartItemConvertor());
+        binder.registerCustomEditor(OrderStatus.class, new OrderStatusConvertor());
     }
 }

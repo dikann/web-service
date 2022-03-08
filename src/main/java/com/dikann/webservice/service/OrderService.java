@@ -1,24 +1,21 @@
 package com.dikann.webservice.service;
 
 import com.dikann.webservice.dto.OrderDto;
-import com.dikann.webservice.entity.CartItem;
-import com.dikann.webservice.entity.Order;
-import com.dikann.webservice.entity.ShoppingSession;
-import com.dikann.webservice.entity.UserAddress;
+import com.dikann.webservice.entity.*;
+import com.dikann.webservice.enums.OrderStatus;
 import com.dikann.webservice.exception.ObjectNotFoundException;
 import com.dikann.webservice.repository.OrderRepository;
 import com.dikann.webservice.utils.ApplicationConst;
 import com.dikann.webservice.utils.CartItemUtils;
 import com.dikann.webservice.utils.CustomerMapper;
 import com.dikann.webservice.utils.UserUtils;
-import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -56,9 +53,45 @@ public class OrderService {
         order.setTotalDiscount(CartItemUtils.totalDiscount(cartItems));
         order.setCreatedDate(LocalDateTime.now());
 
-        shoppingSession.setValid(false);
-        shoppingSessionService.updateShoppingSession(shoppingSession.getId(), shoppingSession);
+//        shoppingSession.setValid(false);
+//        shoppingSessionService.updateShoppingSession(shoppingSession.getId(), shoppingSession);
         return orderRepository.save(order);
+    }
+
+    public Order getOrder(Principal userPrincipal, Long id) {
+        User user = userUtils.getUser(userPrincipal);
+        Optional<Order> orderOptional = orderRepository.findByIdAndUserId(user.getId(), id);
+        if (orderOptional.isEmpty())
+            throw new ObjectNotFoundException(ApplicationConst.errorObjectWithNameNotFoundMessage("order"));
+
+        return orderOptional.get();
+    }
+
+    public List<Order> getAllOrders(Principal usPrincipal) {
+        User user = userUtils.getUser(usPrincipal);
+
+        List<Order> orders = orderRepository.findAllByUserId(user.getId());
+
+        if (!orders.isEmpty())
+            return orders;
+
+        return new ArrayList<>();
+    }
+
+    public Order updateOrder(Principal userPrincipal, Long id, OrderStatus orderStatus) {
+        Order order = getOrder(userPrincipal, id);
+
+        order.setOrderStatus(orderStatus);
+        return orderRepository.save(order);
+    }
+
+    public Map<Object, Object> deleteOrder(Principal userPrincipal, Long id) {
+        Order order = getOrder(userPrincipal, id);
+        orderRepository.deleteById(order.getId());
+        Map<Object, Object> model = new HashMap<>();
+        model.put("id", id);
+        model.put("success", true);
+        return model;
     }
 
 }

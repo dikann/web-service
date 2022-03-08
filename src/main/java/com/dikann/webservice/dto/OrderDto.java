@@ -28,6 +28,6 @@ public class OrderDto {
     private LocalDateTime modifiedDate;
 
     @JsonProperty(value = "cart_items", access = JsonProperty.Access.READ_ONLY)
-    private List<CartItem> cartItems;
+    private List<CartItemDto> cartItems;
 
 }

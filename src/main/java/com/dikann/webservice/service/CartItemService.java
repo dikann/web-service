@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.dikann.webservice.utils.ApplicationConst.errorObjectNotFoundMessage;
 
@@ -80,13 +81,13 @@ public class CartItemService {
         return new ArrayList<CartItem>();
     }
 
-    public List<CartItem> getAllCartItemsByShoppingSessionId(Long shoppingSessionId) {
+    public List<CartItemDto> getAllCartItemsByShoppingSessionId(Long shoppingSessionId) {
         List<CartItem> cartItemList = cartItemRepository.findAllByShoppingSessionId(shoppingSessionId);
 
         if (!cartItemList.isEmpty())
-            return cartItemList;
+            return cartItemList.stream().map(cartItem -> mapper.map(cartItem, CartItemDto.class)).collect(Collectors.toList());
 
-        return new ArrayList<CartItem>();
+        return new ArrayList<CartItemDto>();
     }
 
     public CartItem updateCartItem(Principal userPrincipal, Long id, CartItemDto cartItemDto) {
