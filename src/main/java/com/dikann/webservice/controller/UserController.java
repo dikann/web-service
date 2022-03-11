@@ -7,6 +7,7 @@ import com.dikann.webservice.enums.SortByUserEnum;
 import com.dikann.webservice.enums.SortDirEnum;
 import com.dikann.webservice.service.UserService;
 import com.dikann.webservice.utils.ApplicationConst;
+import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,9 @@ public class UserController {
     @GetMapping
     public List<SignUpDto> getAllUsers(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
                                        @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
+                                       @ApiParam(type = "String", allowableValues = "id, firstName, lastName, createdDate, modifiedDate")
                                        @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByUserEnum sortBy,
+                                       @ApiParam(type = "String", allowableValues = "asc, desc")
                                        @RequestParam(defaultValue = ApplicationConst.sortDir, name = "sort_dir") SortDirEnum sortDir) {
 
         return userService.getAllUsers(pageNo, pageSize, sortBy, sortDir).stream().map(user -> getSignupDto(user))

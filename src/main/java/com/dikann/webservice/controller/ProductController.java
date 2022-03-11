@@ -9,6 +9,7 @@ import com.dikann.webservice.service.ProductService;
 import com.dikann.webservice.utils.ApplicationConst;
 import com.dikann.webservice.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,9 @@ public class ProductController {
     @GetMapping
     public List<ProductDto> getAllProducts(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
                                            @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
+                                           @ApiParam(type = "String", allowableValues = "id, name, createdDate, modifiedDate, sku, price, quantity")
                                            @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByProductEnum sortBy,
+                                           @ApiParam(type = "String", allowableValues = "asc, desc")
                                            @RequestParam(defaultValue = ApplicationConst.sortDir, name = "sort_dir") SortDirEnum sortDir) {
 
         return productService.getAllProducts(pageNo, pageSize, sortBy, sortDir).stream().map(product -> mapper.map(product, ProductDto.class))

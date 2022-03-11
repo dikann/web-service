@@ -8,6 +8,7 @@ import com.dikann.webservice.service.DiscountService;
 import com.dikann.webservice.utils.ApplicationConst;
 import com.dikann.webservice.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,9 @@ public class DiscountController {
     @GetMapping
     public List<DiscountDto> getAllDiscounts(@RequestParam(defaultValue = ApplicationConst.pageNo, name = "page") Integer pageNo,
                                              @RequestParam(defaultValue = ApplicationConst.pageSize, name = "page_size") Integer pageSize,
+                                             @ApiParam(type = "String", allowableValues = "id, name, createdDate, modifiedDate")
                                              @RequestParam(defaultValue = ApplicationConst.sortBy, name = "sort_by") SortByEnum sortBy,
+                                             @ApiParam(type = "String", allowableValues = "asc, desc")
                                              @RequestParam(defaultValue = ApplicationConst.sortDir, name = "sort_dir") SortDirEnum sortDir) {
 
         return discountService.getAllDiscounts(pageNo, pageSize, sortBy, sortDir).stream().map(discount -> mapper.map(discount, DiscountDto.class))
