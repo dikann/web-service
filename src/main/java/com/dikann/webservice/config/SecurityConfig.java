@@ -6,6 +6,7 @@ import com.dikann.webservice.utils.ApplicationConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -62,6 +63,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(ApplicationConst.baseUrl + "auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, ApplicationConst.baseUrl + "category").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, ApplicationConst.baseUrl + "discount").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, ApplicationConst.baseUrl + "product").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, ApplicationConst.baseUrl + "user").permitAll()
+                .antMatchers(HttpMethod.PUT, ApplicationConst.baseUrl + "order").hasRole("ADMIN")
+                .antMatchers(ApplicationConst.baseUrl + "category").hasRole("ADMIN")
+                .antMatchers(ApplicationConst.baseUrl + "discount").hasRole("ADMIN")
+                .antMatchers(ApplicationConst.baseUrl + "product").hasRole("ADMIN")
+                .antMatchers(ApplicationConst.baseUrl + "user").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UNAUTHORIZED : " + ex.getMessage()))
