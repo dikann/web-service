@@ -3,8 +3,8 @@ package com.dikann.webservice.enums;
 import java.util.Arrays;
 
 public enum DefaultRoles {
-    ADMIN("admin"),
-    USER("user");
+    ADMIN("ADMIN"),
+    USER("USER");
 
     private String value;
 
