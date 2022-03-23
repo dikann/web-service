@@ -102,6 +102,7 @@
     </dependencies>
 
     <build>
+        <finalName>dikann-web-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
